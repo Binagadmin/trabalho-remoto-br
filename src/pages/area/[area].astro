@@ -1,0 +1,47 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import JobCard from '../../components/JobCard.astro';
+import { AREAS, vagasAtivas } from '../../lib/vagas';
+
+export const getStaticPaths = (async () => {
+  const ativas = await vagasAtivas();
+  return AREAS.map((area) => ({
+    params: { area: area.slug },
+    props: { area, vagas: ativas.filter((v) => v.data.area === area.nome) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { area, vagas } = Astro.props;
+const descricao = `Vagas home office de ${area.nome}. ${area.intro}`.slice(0, 300);
+---
+
+<Layout
+  title={`Vagas home office em ${area.nome}`}
+  description={descricao}
+  noindex={vagas.length === 0}
+>
+  <div class="container pagina__topo">
+    <nav class="migalhas" aria-label="Você está em">
+      <a href="/">Início</a> › <a href="/vagas/">Vagas</a> › {area.nome}
+    </nav>
+    <h1>Vagas home office em {area.nome}</h1>
+    <p>{area.intro}</p>
+  </div>
+
+  <section class="container secao" style="padding-top:1rem">
+    {
+      vagas.length > 0 ? (
+        <div class="grade">
+          {vagas.map((v) => <JobCard vaga={v} />)}
+        </div>
+      ) : (
+        <div class="card vazio">
+          <h3>Nenhuma vaga aberta em {area.nome} agora</h3>
+          <p class="muted">Novas vagas são publicadas com frequência. Veja as vagas de outras áreas.</p>
+          <a class="btn btn--primary" href="/vagas/">Ver todas as vagas</a>
+        </div>
+      )
+    }
+  </section>
+</Layout>

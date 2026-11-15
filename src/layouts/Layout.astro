@@ -1,0 +1,111 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../config';
+
+interface Props {
+  /** Título da página (sem o nome do site). Para a home, use `home`. */
+  title: string;
+  description: string;
+  home?: boolean;
+  /** Impede a indexação (ex.: busca, 404, vagas encerradas). */
+  noindex?: boolean;
+  /** Dados estruturados (JSON-LD) desta página. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  ogType?: 'website' | 'article';
+}
+
+const { title, description, home = false, noindex = false, jsonLd, ogType = 'website' } = Astro.props;
+
+const titulo = home ? `${site.nome} | ${site.slogan}` : `${title} | ${site.nome}`;
+const canonical = `${site.url}${Astro.url.pathname}`;
+const og = `${site.url}/og-default.png`;
+const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#0E9F6E" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:site_name" content={site.nome} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {ld.map((obj) => <script type="application/ld+json" is:inline set:html={JSON.stringify(obj).replace(/</g, '\\u003c')} />)}
+
+    <!--
+      GOOGLE ADSENSE: o script abaixo só é carregado quando `adsenseClient` estiver
+      preenchido em src/config.ts. Ele também serve para o Google verificar seu site.
+    -->
+    {
+      site.adsenseClient && (
+        <>
+          <meta name="google-adsense-account" content={site.adsenseClient} />
+          <script
+            async
+            src={`https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=${site.adsenseClient}`}
+            crossorigin="anonymous"
+          />
+        </>
+      )
+    }
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <Header />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Pequeno script (sem biblioteca) que mantém a página correta entre um deploy e outro:
+      // esconde vagas que já expiraram e atualiza o "publicada há X dias".
+      const agora = Date.now();
+
+      document.querySelectorAll<HTMLElement>('[data-expira]').forEach((el) => {
+        const fim = Date.parse(el.dataset.expira ?? '');
+        if (Number.isNaN(fim) || fim >= agora) return;
+        if (el.hasAttribute('data-vaga-pagina')) {
+          el.querySelector<HTMLElement>('[data-aviso-encerrada]')?.removeAttribute('hidden');
+          el.querySelectorAll<HTMLElement>('[data-candidatura]').forEach((b) => b.setAttribute('hidden', ''));
+        } else {
+          el.remove();
+        }
+      });
+
+      document.querySelectorAll<HTMLElement>('[data-pub]').forEach((el) => {
+        const t = Date.parse(el.dataset.pub ?? '');
+        if (Number.isNaN(t)) return;
+        const dias = Math.max(0, Math.floor((agora - t) / 86400000));
+        el.textContent =
+          dias === 0
+            ? 'Publicada hoje'
+            : dias === 1
+              ? 'Publicada ontem'
+              : dias < 30
+                ? `Publicada há ${dias} dias`
+                : Math.floor(dias / 30) === 1
+                  ? 'Publicada há 1 mês'
+                  : `Publicada há ${Math.floor(dias / 30)} meses`;
+      });
+    </script>
+  </body>
+</html>

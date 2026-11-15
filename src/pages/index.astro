@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+import JobCard from '../components/JobCard.astro';
+import SearchForm from '../components/SearchForm.astro';
+import { site, VAGAS_POR_PAGINA } from '../config';
+import { AREAS, vagasAtivas } from '../lib/vagas';
+
+const recentes = (await vagasAtivas()).slice(0, VAGAS_POR_PAGINA);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.nome,
+    url: `${site.url}/`,
+    inLanguage: 'pt-BR',
+  },
+];
+---
+
+<Layout title={site.slogan} description={site.descricao} home jsonLd={jsonLd}>
+  <section class="hero">
+    <div class="container">
+      <h1>Vagas de emprego 100% home office</h1>
+      <p class="hero__sub">
+        Oportunidades para trabalhar de casa em todo o Brasil, com o objetivo da vaga, as atividades,
+        os requisitos, o salário e os benefícios explicados de forma clara.
+      </p>
+      <SearchForm id="busca-home" />
+      <ul class="chips" aria-label="Áreas de atuação">
+        {AREAS.map((a) => <li><a class="chip" href={`/area/${a.slug}/`}>{a.nome}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <div class="secao__topo">
+        <h2>Vagas mais recentes</h2>
+        <a href="/vagas/">Ver todas as vagas →</a>
+      </div>
+      {
+        recentes.length > 0 ? (
+          <div class="grade">
+            {recentes.map((v) => <JobCard vaga={v} />)}
+          </div>
+        ) : (
+          <div class="card vazio">
+            <h3>Novas vagas em breve</h3>
+            <p class="muted">Ainda não há vagas abertas. Volte em alguns dias ou leia nossas dicas.</p>
+            <a class="btn btn--primary" href="/dicas/">Ler dicas</a>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <h2>Como o site funciona</h2>
+      <div class="como">
+        <div class="card">
+          <h3>1. Encontre</h3>
+          <p>Navegue pelas vagas mais recentes ou escolha a área que combina com você.</p>
+        </div>
+        <div class="card">
+          <h3>2. Entenda</h3>
+          <p>Cada vaga mostra objetivo, atividades, requisitos, salário e benefícios antes de você decidir.</p>
+        </div>
+        <div class="card">
+          <h3>3. Candidate-se</h3>
+          <p>Você se candidata direto no site oficial da empresa. Nunca cobramos nada de quem procura emprego.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

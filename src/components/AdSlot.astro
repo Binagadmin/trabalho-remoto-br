@@ -1,0 +1,43 @@
+---
+/**
+ * ESPAÇO DE ANÚNCIO (Google AdSense)
+ *
+ * Como ativar:
+ *  1. Em src/config.ts preencha `adsenseClient` (ex.: 'ca-pub-123...') e, se quiser, `adsenseSlot`.
+ *  2. Pronto: o script do AdSense passa a ser carregado no <head> e cada <AdSlot /> exibe o anúncio.
+ *
+ * Se preferir colar o código do bloco de anúncios manualmente, substitua o conteúdo de
+ * <div class="ad-slot__box"> abaixo pelo código que o Google gerar.
+ *
+ * REGRAS: mantenha sempre margem (mín. 32px) acima e abaixo, deixe o rótulo "Publicidade"
+ * e NUNCA coloque um AdSlot colado em botões, links de menu ou no botão de candidatura.
+ */
+import { site } from '../config';
+
+interface Props {
+  slot?: string;
+}
+const { slot = site.adsenseSlot } = Astro.props;
+const ativo = Boolean(site.adsenseClient && slot);
+---
+
+<aside class="ad-slot" aria-label="Publicidade">
+  <span class="ad-slot__label">Publicidade</span>
+  <div class:list={['ad-slot__box', { 'ad-slot__box--ativo': ativo }]}>
+    {
+      ativo && (
+        <>
+          <ins
+            class="adsbygoogle"
+            style="display:block"
+            data-ad-client={site.adsenseClient}
+            data-ad-slot={slot}
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          />
+          <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </>
+      )
+    }
+  </div>
+</aside>

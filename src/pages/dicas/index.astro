@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { dataPorExtenso, todasAsDicas } from '../../lib/vagas';
+
+const dicas = await todasAsDicas();
+---
+
+<Layout
+  title="Dicas para trabalhar em home office"
+  description="Guias práticos para conseguir vaga home office: currículo, entrevista online, segurança contra golpes e organização do trabalho remoto."
+>
+  <div class="container pagina__topo">
+    <h1>Dicas para quem quer trabalhar de casa</h1>
+    <p>Guias práticos para montar o currículo, passar em entrevistas online e evitar golpes.</p>
+  </div>
+
+  <section class="container secao" style="padding-top:1rem">
+    <div class="grade">
+      {
+        dicas.map((d) => (
+          <article class="card job-card">
+            <span class="muted small">{dataPorExtenso(d.data.data_publicacao)}</span>
+            <h2 class="job-card__titulo" style="font-size:1.2rem;margin-top:.4rem">
+              <a class="job-card__link" href={`/dicas/${d.id}/`}>{d.data.titulo}</a>
+            </h2>
+            <p class="job-card__resumo">{d.data.descricao}</p>
+            <span class="job-card__ver" aria-hidden="true">Ler artigo →</span>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

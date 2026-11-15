@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../config';
+---
+
+<Layout
+  title="Política de Privacidade"
+  description={`Saiba como o ${site.nome} trata dados pessoais, de acordo com a LGPD, e como o Google AdSense usa cookies para exibir anúncios.`}
+>
+  <div class="container container--estreito pagina__topo">
+    <h1>Política de Privacidade</h1>
+    <p>Última atualização: {site.atualizacaoLegal}.</p>
+  </div>
+  <div class="container container--estreito prose" style="padding-bottom:2rem">
+    <p>
+      Esta política explica como o <strong>{site.nome}</strong> (“site”) coleta, usa e protege dados
+      pessoais, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).
+    </p>
+
+    <h2>1. Quem é o responsável</h2>
+    <p>
+      O responsável pelo tratamento dos dados (controlador) é <strong>{site.responsavel}</strong>.
+      Para falar sobre privacidade, escreva para <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+
+    <h2>2. Quais dados tratamos</h2>
+    <ul>
+      <li>
+        <strong>Dados que você envia:</strong> nome, e-mail e mensagem, quando usa o formulário de
+        contato.
+      </li>
+      <li>
+        <strong>Dados de navegação:</strong> endereço IP, tipo de navegador, dispositivo, páginas
+        acessadas e horário, registrados automaticamente pela hospedagem do site (Cloudflare) para
+        segurança e funcionamento.
+      </li>
+      <li>
+        <strong>Cookies e identificadores de terceiros:</strong> usados pelo Google para exibir
+        anúncios, conforme explicado abaixo.
+      </li>
+    </ul>
+    <p>
+      Não pedimos cadastro, currículo nem documentos. A candidatura às vagas acontece no site da
+      empresa anunciante, que tem sua própria política de privacidade.
+    </p>
+
+    <h2>3. Para que usamos os dados</h2>
+    <ul>
+      <li>Responder mensagens enviadas pelo formulário (base legal: execução de procedimentos preliminares a pedido do titular e legítimo interesse).</li>
+      <li>Manter o site seguro, estável e funcionando (legítimo interesse).</li>
+      <li>Exibir anúncios que ajudam a manter o site gratuito (legítimo interesse e, quando exigido, consentimento).</li>
+    </ul>
+
+    <h2>4. Publicidade e Google AdSense</h2>
+    <p>
+      Exibimos anúncios do Google AdSense. O Google e seus parceiros, como fornecedores terceiros,
+      usam cookies e tecnologias semelhantes para veicular anúncios com base nas suas visitas a este
+      e a outros sites. O uso do cookie de publicidade permite que o Google e seus parceiros exibam
+      anúncios para você com base na navegação em outros sites.
+    </p>
+    <ul>
+      <li>
+        Você pode desativar a publicidade personalizada em
+        <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Configurações de anúncios do Google</a>.
+      </li>
+      <li>
+        Saiba como o Google usa informações de sites que usam seus serviços em
+        <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">policies.google.com/technologies/partner-sites</a>.
+      </li>
+    </ul>
+    <p>Mais detalhes na nossa <a href="/politica-de-cookies/">Política de Cookies</a>.</p>
+
+    <h2>5. Com quem compartilhamos</h2>
+    <p>Compartilhamos dados somente quando necessário para operar o site:</p>
+    <ul>
+      <li><strong>Cloudflare:</strong> hospedagem e segurança.</li>
+      <li><strong>Formspree:</strong> recebimento das mensagens enviadas pelo formulário de contato.</li>
+      <li><strong>Google:</strong> exibição de anúncios (AdSense).</li>
+    </ul>
+    <p>
+      Alguns desses fornecedores podem tratar dados fora do Brasil. Nesses casos, adotamos fornecedores
+      que oferecem salvaguardas compatíveis com a LGPD. Não vendemos seus dados pessoais.
+    </p>
+
+    <h2>6. Por quanto tempo guardamos</h2>
+    <p>
+      Mensagens do formulário são guardadas pelo tempo necessário para atendê-lo e, depois, apagadas
+      ou anonimizadas, salvo obrigação legal. Registros técnicos seguem os prazos dos fornecedores.
+    </p>
+
+    <h2>7. Seus direitos</h2>
+    <p>
+      Nos termos do art. 18 da LGPD, você pode pedir: confirmação de que tratamos seus dados, acesso,
+      correção, anonimização, bloqueio ou eliminação de dados desnecessários, portabilidade,
+      informações sobre compartilhamento e revogação de consentimento. Para exercer qualquer direito,
+      escreva para <a href={`mailto:${site.email}`}>{site.email}</a>. Você também pode reclamar à
+      Autoridade Nacional de Proteção de Dados (ANPD).
+    </p>
+
+    <h2>8. Segurança</h2>
+    <p>
+      O site usa conexão criptografada (HTTPS) e adota medidas técnicas razoáveis para proteger os
+      dados. Nenhum sistema é totalmente imune a falhas, e por isso pedimos que você não envie
+      informações sensíveis pelo formulário.
+    </p>
+
+    <h2>9. Crianças e adolescentes</h2>
+    <p>O site é voltado a maiores de 18 anos e não coleta intencionalmente dados de menores.</p>
+
+    <h2>10. Alterações</h2>
+    <p>
+      Podemos atualizar esta política. A data no topo da página indica a versão mais recente.
+    </p>
+  </div>
+</Layout>

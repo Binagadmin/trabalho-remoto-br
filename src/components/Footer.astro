@@ -1,0 +1,41 @@
+---
+import { site } from '../config';
+import { AREAS } from '../lib/vagas';
+
+const ano = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grade">
+    <div>
+      <p class="footer__marca">{site.nome}</p>
+      <p class="muted small">{site.slogan}. Conteúdo gratuito para quem busca trabalhar de casa.</p>
+    </div>
+    <nav aria-label="Áreas de vagas">
+      <p class="footer__titulo">Áreas</p>
+      <ul class="footer__lista">
+        {AREAS.map((a) => <li><a href={`/area/${a.slug}/`}>{a.nome}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Páginas do site">
+      <p class="footer__titulo">O site</p>
+      <ul class="footer__lista">
+        <li><a href="/vagas/">Vagas recentes</a></li>
+        <li><a href="/dicas/">Dicas</a></li>
+        <li><a href="/sobre/">Sobre</a></li>
+        <li><a href="/contato/">Contato</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Páginas legais">
+      <p class="footer__titulo">Legal</p>
+      <ul class="footer__lista">
+        <li><a href="/politica-de-privacidade/">Política de Privacidade</a></li>
+        <li><a href="/termos-de-uso/">Termos de Uso</a></li>
+        <li><a href="/politica-de-cookies/">Política de Cookies</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer__base">
+    <p class="muted small">© {ano} {site.nome}. Todos os direitos reservados.</p>
+  </div>
+</footer>

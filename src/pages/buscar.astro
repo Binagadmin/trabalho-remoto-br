@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import JobCard from '../components/JobCard.astro';
+import SearchForm from '../components/SearchForm.astro';
+import { vagasAtivas } from '../lib/vagas';
+
+const vagas = await vagasAtivas();
+---
+
+<Layout
+  title="Buscar vagas"
+  description="Busque vagas home office por cargo, empresa ou área."
+  noindex
+>
+  <div class="container pagina__topo">
+    <h1>Buscar vagas</h1>
+    <SearchForm id="busca-pagina" />
+  </div>
+
+  <section class="container secao" style="padding-top:1rem">
+    <p class="muted" id="resultado-busca" aria-live="polite"></p>
+    <div class="grade" id="lista-busca">
+      {vagas.map((v) => <JobCard vaga={v} />)}
+    </div>
+    <div class="card vazio" id="busca-vazia" hidden>
+      <h3>Nenhuma vaga encontrada</h3>
+      <p class="muted">Tente outra palavra ou veja as vagas por área.</p>
+      <a class="btn btn--primary" href="/vagas/">Ver todas as vagas</a>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const input = document.querySelector<HTMLInputElement>('#busca-pagina');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('#lista-busca [data-busca]'));
+  const msg = document.querySelector<HTMLElement>('#resultado-busca');
+  const vazio = document.querySelector<HTMLElement>('#busca-vazia');
+
+  function filtrar(termo: string) {
+    const palavras = norm(termo).split(/\s+/).filter(Boolean);
+    let visiveis = 0;
+    cards.forEach((c) => {
+      const texto = c.dataset.busca ?? '';
+      const ok = palavras.every((p) => texto.includes(p));
+      c.hidden = !ok;
+      if (ok) visiveis++;
+    });
+    if (msg) {
+      msg.textContent = palavras.length
+        ? `${visiveis} ${visiveis === 1 ? 'vaga encontrada' : 'vagas encontradas'} para "${termo.trim()}"`
+        : `${visiveis} ${visiveis === 1 ? 'vaga aberta' : 'vagas abertas'}`;
+    }
+    if (vazio) vazio.hidden = visiveis > 0;
+  }
+
+  const q = new URLSearchParams(location.search).get('q') ?? '';
+  if (input) {
+    input.value = q;
+    input.addEventListener('input', () => filtrar(input.value));
+  }
+  filtrar(q);
+</script>

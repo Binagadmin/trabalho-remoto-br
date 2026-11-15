@@ -1,0 +1,30 @@
+---
+import { fimDaVagaISO, normalizar, publicadaHa, resumo, type Vaga } from '../lib/vagas';
+
+interface Props {
+  vaga: Vaga;
+}
+const { vaga } = Astro.props;
+const d = vaga.data;
+const busca = normalizar(`${d.titulo} ${d.empresa} ${d.area} ${d.objetivo}`);
+---
+
+<article
+  class="card job-card"
+  data-expira={fimDaVagaISO(vaga)}
+  data-busca={busca}
+>
+  <div class="job-card__topo">
+    <span class="chip">{d.area}</span>
+    <span class="muted small" data-pub={d.data_publicacao.toISOString()}>
+      {publicadaHa(d.data_publicacao)}
+    </span>
+  </div>
+  <h3 class="job-card__titulo">
+    <a href={`/vaga/${vaga.id}/`} class="job-card__link">{d.titulo}</a>
+  </h3>
+  <p class="job-card__empresa">{d.empresa}</p>
+  {d.salario && <p class="salario">{d.salario}</p>}
+  <p class="job-card__resumo">{resumo(d.objetivo)}</p>
+  <span class="job-card__ver" aria-hidden="true">Ver detalhes →</span>
+</article>

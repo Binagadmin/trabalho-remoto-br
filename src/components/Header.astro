@@ -1,0 +1,87 @@
+---
+import { site } from '../config';
+import { AREAS } from '../lib/vagas';
+
+const caminho = Astro.url.pathname;
+const ativo = (href: string) =>
+  href === '/' ? caminho === '/' : caminho === href || caminho.startsWith(href);
+const emArea = caminho.startsWith('/area/');
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href="/" aria-label={`${site.nome} - página inicial`}>
+      <svg class="logo__marca" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="10" fill="#0E9F6E"></rect>
+        <path d="M8 15.5 16 9l8 6.5V23a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1z" fill="#fff"></path>
+        <rect x="13.5" y="17" width="5" height="7" rx="1" fill="#0E9F6E"></rect>
+      </svg>
+      <span class="logo__texto">{site.nome}</span>
+    </a>
+
+    <button
+      class="menu-btn"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu-principal"
+      data-menu-btn
+    >
+      <span class="sr-only">Abrir menu</span>
+      <span class="menu-btn__barras" aria-hidden="true"></span>
+    </button>
+
+    <nav class="nav" id="menu-principal" aria-label="Menu principal" data-menu>
+      <ul class="nav__lista">
+        <li><a class:list={['nav__link', { 'nav__link--ativo': ativo('/') }]} href="/">Início</a></li>
+        <li>
+          <a class:list={['nav__link', { 'nav__link--ativo': ativo('/vagas/') }]} href="/vagas/">Vagas recentes</a>
+        </li>
+        <li>
+          <details class="drop" data-drop>
+            <summary class:list={['nav__link', 'drop__btn', { 'nav__link--ativo': emArea }]}>
+              Áreas
+              <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="m2 4 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </summary>
+            <ul class="drop__painel">
+              {AREAS.map((a) => (
+                <li><a class="drop__link" href={`/area/${a.slug}/`}>{a.nome}</a></li>
+              ))}
+            </ul>
+          </details>
+        </li>
+        <li><a class:list={['nav__link', { 'nav__link--ativo': ativo('/dicas/') }]} href="/dicas/">Dicas</a></li>
+        <li><a class:list={['nav__link', { 'nav__link--ativo': ativo('/sobre/') }]} href="/sobre/">Sobre</a></li>
+        <li><a class:list={['nav__link', { 'nav__link--ativo': ativo('/contato/') }]} href="/contato/">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const drops = document.querySelectorAll<HTMLDetailsElement>('[data-drop]');
+
+  btn?.addEventListener('click', () => {
+    const aberto = menu?.classList.toggle('nav--aberto') ?? false;
+    btn.setAttribute('aria-expanded', String(aberto));
+  });
+
+  // Fecha o dropdown de Áreas ao clicar fora ou apertar Esc.
+  document.addEventListener('click', (e) => {
+    drops.forEach((d) => {
+      if (d.open && !d.contains(e.target as Node)) d.open = false;
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    drops.forEach((d) => (d.open = false));
+    if (menu?.classList.contains('nav--aberto')) {
+      menu.classList.remove('nav--aberto');
+      btn?.setAttribute('aria-expanded', 'false');
+      btn?.focus();
+    }
+  });
+</script>

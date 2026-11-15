@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../config';
+---
+
+<Layout
+  title="Termos de Uso"
+  description={`Regras de uso do ${site.nome}: natureza das vagas, responsabilidades, links externos e propriedade do conteúdo.`}
+>
+  <div class="container container--estreito pagina__topo">
+    <h1>Termos de Uso</h1>
+    <p>Última atualização: {site.atualizacaoLegal}.</p>
+  </div>
+  <div class="container container--estreito prose" style="padding-bottom:2rem">
+    <p>
+      Ao acessar o <strong>{site.nome}</strong>, você concorda com estes termos. Se não concordar, não
+      utilize o site.
+    </p>
+
+    <h2>1. O que o site oferece</h2>
+    <p>
+      O site divulga vagas de emprego home office e conteúdos informativos sobre carreira. Somos um
+      canal de divulgação: <strong>não somos empregadores, agência de empregos nem participamos dos
+      processos seletivos</strong>. A contratação é uma relação exclusiva entre você e a empresa.
+    </p>
+
+    <h2>2. Informações das vagas</h2>
+    <p>
+      Fazemos o possível para publicar informações corretas e atualizadas, mas dados como salário,
+      benefícios, requisitos e prazos são fornecidos pelas empresas e podem mudar sem aviso. Confirme
+      sempre os detalhes no site oficial da empresa antes de se candidatar.
+    </p>
+
+    <h2>3. Gratuidade e segurança</h2>
+    <p>
+      O uso do site é gratuito para candidatos. Nenhuma vaga divulgada aqui deve exigir pagamento para
+      participar de processo seletivo. Se encontrar uma vaga suspeita, avise-nos pela página de
+      <a href="/contato/">contato</a> e retiraremos a divulgação assim que possível.
+    </p>
+
+    <h2>4. Links externos</h2>
+    <p>
+      O site contém links para páginas de terceiros (como sites de empresas e de plataformas de
+      recrutamento). Não controlamos esses sites e não nos responsabilizamos pelo conteúdo, pelas
+      políticas ou pelas práticas deles.
+    </p>
+
+    <h2>5. Publicidade</h2>
+    <p>
+      O site exibe anúncios, identificados como “Publicidade”. Os anunciantes são responsáveis por seus
+      anúncios. A presença de um anúncio não significa recomendação nossa.
+    </p>
+
+    <h2>6. Propriedade intelectual</h2>
+    <p>
+      Os textos, o layout e a identidade do site pertencem ao {site.responsavel}. Você pode compartilhar
+      links livremente, mas não pode copiar o conteúdo para republicação sem autorização. Marcas e
+      logotipos de empresas citadas pertencem a seus titulares.
+    </p>
+
+    <h2>7. Uso adequado</h2>
+    <p>
+      É proibido usar o site para fins ilegais, tentar prejudicar seu funcionamento, coletar dados em
+      massa por meios automatizados ou clicar de forma artificial em anúncios.
+    </p>
+
+    <h2>8. Limitação de responsabilidade</h2>
+    <p>
+      O site é oferecido “como está”. Na máxima extensão permitida pela lei, não nos responsabilizamos
+      por decisões tomadas com base nas informações publicadas, por indisponibilidades temporárias ou
+      por problemas decorrentes da relação entre candidato e empresa.
+    </p>
+
+    <h2>9. Alterações e lei aplicável</h2>
+    <p>
+      Podemos alterar estes termos a qualquer momento; a data no topo indica a versão atual. Estes
+      termos são regidos pelas leis do Brasil.
+    </p>
+
+    <h2>10. Contato</h2>
+    <p>
+      Dúvidas sobre estes termos: <a href={`mailto:${site.email}`}>{site.email}</a>. Veja também a
+      <a href="/politica-de-privacidade/">Política de Privacidade</a>.
+    </p>
+  </div>
+</Layout>

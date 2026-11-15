@@ -1,0 +1,50 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { site } from '../../config';
+import { dataPorExtenso, diaISO, todasAsDicas } from '../../lib/vagas';
+
+export const getStaticPaths = (async () => {
+  const dicas = await todasAsDicas();
+  return dicas.map((dica) => ({ params: { slug: dica.id }, props: { dica } }));
+}) satisfies GetStaticPaths;
+
+const { dica } = Astro.props;
+const { Content } = await render(dica);
+const d = dica.data;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.titulo,
+  description: d.descricao,
+  datePublished: diaISO(d.data_publicacao),
+  dateModified: diaISO(d.data_atualizacao ?? d.data_publicacao),
+  inLanguage: 'pt-BR',
+  mainEntityOfPage: `${site.url}/dicas/${dica.id}/`,
+  author: { '@type': 'Organization', name: site.nome },
+  publisher: { '@type': 'Organization', name: site.nome },
+};
+---
+
+<Layout title={d.titulo} description={d.descricao} ogType="article" jsonLd={jsonLd}>
+  <article class="container container--estreito secao">
+    <nav class="migalhas" aria-label="Você está em">
+      <a href="/">Início</a> › <a href="/dicas/">Dicas</a> › Artigo
+    </nav>
+    <h1>{d.titulo}</h1>
+    <p class="data-artigo">
+      Publicado em {dataPorExtenso(d.data_publicacao)}
+      {d.data_atualizacao && <> · Atualizado em {dataPorExtenso(d.data_atualizacao)}</>}
+    </p>
+    <div class="prose">
+      <Content />
+    </div>
+    <div class="card vazio" style="margin-top:3rem">
+      <h2 style="font-size:1.2rem">Pronto para procurar sua vaga?</h2>
+      <p class="muted">Veja as oportunidades home office abertas agora.</p>
+      <a class="btn btn--primary" href="/vagas/">Ver vagas recentes</a>
+    </div>
+  </article>
+</Layout>

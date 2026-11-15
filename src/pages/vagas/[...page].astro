@@ -1,0 +1,46 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import JobCard from '../../components/JobCard.astro';
+import Pagination from '../../components/Pagination.astro';
+import { VAGAS_POR_PAGINA } from '../../config';
+import { vagasAtivas } from '../../lib/vagas';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const vagas = await vagasAtivas();
+  return paginate(vagas, { pageSize: VAGAS_POR_PAGINA });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const n = page.currentPage;
+const titulo = n === 1 ? 'Vagas home office recentes' : `Vagas home office recentes - página ${n}`;
+---
+
+<Layout
+  title={titulo}
+  description="Veja todas as vagas de emprego home office, da mais recente para a mais antiga, com salário, benefícios, requisitos e atividades."
+>
+  <div class="container pagina__topo">
+    <h1>Vagas home office recentes</h1>
+    <p>
+      {page.total} {page.total === 1 ? 'vaga aberta' : 'vagas abertas'}, ordenadas da mais recente para a mais antiga.
+    </p>
+  </div>
+
+  <section class="container secao" style="padding-top:1rem">
+    {
+      page.data.length > 0 ? (
+        <div class="grade">
+          {page.data.map((v) => <JobCard vaga={v} />)}
+        </div>
+      ) : (
+        <div class="card vazio">
+          <h3>Nenhuma vaga aberta no momento</h3>
+          <p class="muted">Volte em breve ou leia nossas dicas para home office.</p>
+          <a class="btn btn--primary" href="/dicas/">Ler dicas</a>
+        </div>
+      )
+    }
+    <Pagination paginaAtual={page.currentPage} totalPaginas={page.lastPage} base="/vagas/" />
+  </section>
+</Layout>

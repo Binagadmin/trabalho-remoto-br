@@ -1,0 +1,274 @@
+/* ==========================================================================
+   Estilo global. Para mudar o visual, altere as variáveis abaixo.
+   Cores conferidas para contraste WCAG AA.
+   ========================================================================== */
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --muted: #4b5563;
+  --line: #e5e7eb;
+
+  /* Cor de destaque da marca. Use em fundos, bordas e detalhes. */
+  --accent: #0e9f6e;
+  /* Versão mais escura, usada em botões e links (texto branco sobre ela passa no AA). */
+  --accent-strong: #047857;
+  --accent-hover: #065f46;
+  --accent-soft: #e7f6ef;
+
+  --warn-bg: #fff7ed;
+  --warn-line: #fdba74;
+  --warn-text: #7c2d12;
+
+  --radius: 16px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 4px 16px rgb(16 24 40 / 6%);
+  --shadow-hover: 0 2px 4px rgb(16 24 40 / 8%), 0 10px 28px rgb(16 24 40 / 10%);
+  --header-h: 68px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] { display: none !important; }
+img, svg { max-width: 100%; display: block; }
+h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 0.6em; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.75rem, 4.5vw, 2.5rem); font-weight: 800; }
+h2 { font-size: clamp(1.25rem, 3vw, 1.6rem); font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 650; }
+p { margin: 0 0 1em; }
+ul, ol { margin: 0 0 1em; padding-left: 1.25rem; }
+a { color: var(--accent-strong); text-underline-offset: 3px; }
+a:hover { color: var(--accent-hover); }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.pular {
+  position: absolute; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--accent-strong); color: #fff; padding: 0.6rem 1rem; border-radius: 999px;
+}
+.pular:focus { top: 0.75rem; }
+
+.container { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: 1.25rem; }
+.container--estreito { max-width: 760px; }
+.secao { padding-block: 2.5rem; }
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; }
+
+/* ---------- Cabeçalho e menu ---------- */
+.header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+  height: var(--header-h);
+}
+.header__inner { display: flex; align-items: center; justify-content: space-between; height: 100%; gap: 1rem; }
+.logo { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--text); font-weight: 800; letter-spacing: -0.02em; }
+.logo:hover { color: var(--text); }
+.logo__texto { font-size: 1.1rem; }
+
+.nav__lista { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
+.nav__link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.5rem 0.9rem; border-radius: 999px;
+  color: var(--text); text-decoration: none; font-weight: 550; font-size: 0.95rem;
+  cursor: pointer; list-style: none;
+}
+.nav__link:hover { background: var(--accent-soft); color: var(--accent-hover); }
+.nav__link--ativo { background: var(--accent-soft); color: var(--accent-hover); }
+
+.drop { position: relative; }
+.drop__btn::-webkit-details-marker { display: none; }
+.drop__btn svg { transition: transform 0.15s ease; }
+.drop[open] .drop__btn svg { transform: rotate(180deg); }
+.drop__painel {
+  position: absolute; right: 0; top: calc(100% + 8px); min-width: 230px;
+  list-style: none; margin: 0; padding: 0.5rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+}
+.drop__link { display: block; padding: 0.55rem 0.8rem; border-radius: var(--radius-sm); color: var(--text); text-decoration: none; font-size: 0.95rem; }
+.drop__link:hover { background: var(--accent-soft); color: var(--accent-hover); }
+
+.menu-btn {
+  display: none; width: 44px; height: 44px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); cursor: pointer;
+  align-items: center; justify-content: center;
+}
+.menu-btn__barras, .menu-btn__barras::before, .menu-btn__barras::after {
+  display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; position: relative; content: '';
+}
+.menu-btn__barras::before { position: absolute; top: -6px; }
+.menu-btn__barras::after { position: absolute; top: 6px; }
+
+@media (max-width: 860px) {
+  .menu-btn { display: inline-flex; }
+  .nav {
+    display: none; position: absolute; left: 0; right: 0; top: var(--header-h);
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    padding: 0.75rem 1.25rem 1.25rem; max-height: calc(100vh - var(--header-h)); overflow-y: auto;
+  }
+  .nav--aberto { display: block; }
+  .nav__lista { flex-direction: column; align-items: stretch; gap: 0.15rem; }
+  .nav__link { width: 100%; padding: 0.75rem 1rem; justify-content: space-between; }
+  .drop__painel { position: static; box-shadow: none; border: 0; padding: 0 0 0 0.75rem; min-width: 0; }
+}
+
+/* ---------- Botões, chips, formulários ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.7rem 1.4rem; border-radius: 999px; border: 1px solid transparent;
+  font: inherit; font-weight: 650; text-decoration: none; cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.btn--primary { background: var(--accent-strong); color: #fff; }
+.btn--primary:hover { background: var(--accent-hover); color: #fff; box-shadow: var(--shadow); }
+.btn--ghost { background: var(--surface); color: var(--text); border-color: var(--line); }
+.btn--ghost:hover { border-color: var(--accent); color: var(--accent-hover); }
+.btn--off { opacity: 0.45; pointer-events: none; }
+.btn--lg { padding: 1rem 2.25rem; font-size: 1.1rem; }
+
+.chip {
+  display: inline-block; padding: 0.25rem 0.8rem; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent-hover);
+  font-size: 0.8rem; font-weight: 650; text-decoration: none; line-height: 1.5;
+}
+a.chip:hover { background: var(--accent-strong); color: #fff; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.chips .chip { font-size: 0.9rem; padding: 0.4rem 1rem; background: var(--surface); border: 1px solid var(--line); color: var(--text); }
+.chips a.chip:hover { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+
+.busca { display: flex; gap: 0.5rem; background: var(--surface); padding: 0.4rem; border-radius: 999px; border: 1px solid var(--line); box-shadow: var(--shadow); max-width: 620px; }
+.busca__input { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0.6rem 1rem; font: inherit; color: var(--text); border-radius: 999px; }
+.busca__input:focus { outline: none; }
+.busca:focus-within { border-color: var(--accent); outline: 3px solid rgb(14 159 110 / 25%); }
+
+.campo { margin-bottom: 1.1rem; }
+.campo label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+.campo input, .campo select, .campo textarea {
+  width: 100%; padding: 0.75rem 1rem; font: inherit; color: var(--text);
+  background: var(--surface); border: 1px solid #d1d5db; border-radius: var(--radius-sm);
+}
+.campo textarea { min-height: 160px; resize: vertical; }
+.campo input:focus, .campo select:focus, .campo textarea:focus { outline: 3px solid rgb(14 159 110 / 30%); border-color: var(--accent); }
+.hp { position: absolute; left: -9999px; }
+
+/* ---------- Cards e listas de vagas ---------- */
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 1.4rem;
+}
+.grade { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+
+.job-card { position: relative; display: flex; flex-direction: column; gap: 0.15rem; transition: box-shadow 0.15s ease, transform 0.15s ease; }
+.job-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.job-card__topo { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.job-card__titulo { margin: 0; font-size: 1.15rem; }
+.job-card__link { color: var(--text); text-decoration: none; }
+.job-card__link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+.job-card__link:hover { color: var(--accent-hover); }
+.job-card:focus-within { outline: 3px solid var(--accent); outline-offset: 2px; }
+.job-card__link:focus-visible { outline: none; }
+.job-card__empresa { color: var(--muted); font-weight: 550; margin: 0 0 0.6rem; }
+.job-card__resumo { color: var(--muted); font-size: 0.95rem; margin: 0.4rem 0 1rem; }
+.job-card__ver { margin-top: auto; font-weight: 650; color: var(--accent-strong); font-size: 0.95rem; }
+
+.salario {
+  align-self: flex-start; display: inline-block; margin: 0;
+  background: var(--accent-soft); color: var(--accent-hover);
+  font-weight: 700; padding: 0.3rem 0.85rem; border-radius: 999px; font-size: 0.95rem;
+}
+
+.vazio { text-align: center; padding: 2.5rem 1.25rem; }
+
+.paginacao { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 2rem; flex-wrap: wrap; }
+.paginacao__lista { display: flex; gap: 0.35rem; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: center; }
+.paginacao__num { display: inline-flex; min-width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 999px; text-decoration: none; color: var(--text); border: 1px solid var(--line); background: var(--surface); font-weight: 600; }
+a.paginacao__num:hover { border-color: var(--accent); }
+.paginacao__num--atual { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+
+/* ---------- Home ---------- */
+.hero { padding-block: 3.5rem 2rem; background: linear-gradient(180deg, #ecfaf4 0%, var(--bg) 100%); }
+.hero__sub { font-size: 1.1rem; color: var(--muted); max-width: 640px; margin-bottom: 1.5rem; }
+.hero .chips { margin-top: 1.25rem; }
+.secao__topo { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.secao__topo h2 { margin: 0; }
+.como { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.como h3 { margin-bottom: 0.4rem; }
+.como p { margin: 0; color: var(--muted); }
+
+/* ---------- Página da vaga ---------- */
+.migalhas { font-size: 0.875rem; color: var(--muted); margin-bottom: 1rem; }
+.migalhas a { color: var(--muted); }
+.vaga__topo { margin-bottom: 1.5rem; }
+.vaga__empresa { font-size: 1.1rem; color: var(--muted); font-weight: 550; margin-bottom: 0.75rem; }
+.vaga__meta { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.vaga__corpo { padding: clamp(1.25rem, 4vw, 2.25rem); }
+.vaga__corpo section { margin-bottom: 2rem; }
+.vaga__corpo section:last-child { margin-bottom: 0; }
+.vaga__corpo h2 { padding-bottom: 0.4rem; }
+.vaga__corpo li { margin-bottom: 0.4rem; }
+.aviso { border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+.aviso--encerrada { background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-text); font-weight: 600; }
+.aviso--dica { background: var(--accent-soft); color: var(--accent-hover); }
+.aviso--dica p:last-child { margin-bottom: 0; }
+
+/* Candidatura: sempre isolada de anúncios, com espaço e divisor. */
+.candidatura { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--line); text-align: center; }
+.candidatura p { color: var(--muted); }
+
+/* ---------- Anúncios ---------- */
+.ad-slot { margin: 2rem 0; clear: both; text-align: center; } /* nunca menos de 32px */
+.ad-slot__label { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.ad-slot__box { min-height: 90px; border: 1px dashed #d1d5db; border-radius: var(--radius-sm); overflow: hidden; }
+.ad-slot__box--ativo { min-height: 250px; border: 0; }
+
+/* ---------- Textos longos (artigos e páginas legais) ---------- */
+.prose { font-size: 1.05rem; }
+.prose h2 { margin-top: 2rem; }
+.prose h3 { margin-top: 1.5rem; }
+.prose li { margin-bottom: 0.4rem; }
+.prose blockquote { margin: 1.25rem 0; padding: 0.75rem 1.25rem; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.pagina__topo { padding-block: 2.5rem 1rem; }
+.pagina__topo p { color: var(--muted); font-size: 1.1rem; max-width: 640px; }
+.data-artigo { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+/* ---------- Rodapé ---------- */
+.footer { margin-top: 3rem; background: var(--surface); border-top: 1px solid var(--line); padding-top: 2.5rem; }
+.footer__grade { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.footer__marca { font-weight: 800; font-size: 1.1rem; margin-bottom: 0.4rem; }
+.footer__titulo { font-weight: 700; margin-bottom: 0.6rem; }
+.footer__lista { list-style: none; padding: 0; margin: 0; }
+.footer__lista li { margin-bottom: 0.35rem; }
+.footer__lista a { color: var(--muted); text-decoration: none; }
+.footer__lista a:hover { color: var(--accent-hover); text-decoration: underline; }
+.footer__base { padding-block: 1.5rem; margin-top: 1.5rem; border-top: 1px solid var(--line); }
+.footer__base p { margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+  .job-card:hover { transform: none; }
+}

@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../config';
+---
+
+<Layout
+  title="Sobre o site"
+  description={`Conheça o ${site.nome}: um site gratuito de vagas 100% home office no Brasil, com informações claras sobre cada oportunidade.`}
+>
+  <div class="container container--estreito pagina__topo">
+    <h1>Sobre o {site.nome}</h1>
+  </div>
+  <div class="container container--estreito prose" style="padding-bottom:2rem">
+    <p>
+      O {site.nome} reúne vagas de emprego 100% home office para profissionais de todo o Brasil.
+      Nosso objetivo é simples: ajudar você a encontrar oportunidades de trabalho remoto e a decidir
+      com calma se cada uma faz sentido para a sua carreira.
+    </p>
+
+    <h2>O que você encontra aqui</h2>
+    <p>Cada vaga publicada explica, de forma direta:</p>
+    <ul>
+      <li><strong>Objetivo da vaga:</strong> por que a empresa está contratando.</li>
+      <li><strong>Função e atividades:</strong> o que a pessoa vai fazer no dia a dia.</li>
+      <li><strong>Requisitos:</strong> experiência, conhecimentos e ferramentas esperadas.</li>
+      <li><strong>Salário e benefícios:</strong> quando a empresa informa, mostramos os valores e o pacote completo.</li>
+    </ul>
+    <p>
+      As vagas são organizadas por área (administrativo, atendimento ao cliente, tecnologia,
+      marketing, vendas, RH, financeiro e design) e ordenadas das mais recentes para as mais antigas.
+    </p>
+
+    <h2>Como escolhemos as vagas</h2>
+    <p>
+      Publicamos apenas vagas com informações claras e link de candidatura para o site oficial da
+      empresa ou da plataforma de recrutamento. Revisamos o conteúdo antes de publicar e retiramos do
+      ar as vagas que expiram. Não publicamos vagas que cobram taxas do candidato, prometem ganhos
+      fáceis ou escondem dados da empresa.
+    </p>
+
+    <h2>Somos gratuitos</h2>
+    <p>
+      O site é gratuito para quem procura emprego. Não pedimos cadastro, não cobramos nada e não
+      participamos do processo seletivo: a candidatura acontece direto com a empresa. Mantemos o
+      projeto com a exibição de anúncios, que ficam sempre identificados com o rótulo “Publicidade”.
+    </p>
+
+    <h2>Conteúdo para ajudar sua busca</h2>
+    <p>
+      Na seção <a href="/dicas/">Dicas</a> publicamos guias sobre currículo, entrevistas online,
+      segurança contra golpes e organização do trabalho em casa.
+    </p>
+
+    <h2>Fale com a gente</h2>
+    <p>
+      Encontrou um erro, quer divulgar uma vaga ou tem uma sugestão? Acesse a página de
+      <a href="/contato/">contato</a>.
+    </p>
+  </div>
+</Layout>

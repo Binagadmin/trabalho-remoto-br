@@ -1,0 +1,4 @@
+# ads.txt do Google AdSense (PLACEHOLDER)
+# Depois que sua conta for aprovada, o AdSense mostra a linha exata para você.
+# Apague este comentário, descomente a linha abaixo e troque pelo seu ID de editor (pub-XXXXXXXXXXXXXXXX):
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

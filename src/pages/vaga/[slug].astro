@@ -1,0 +1,128 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import {
+  areaPorNome,
+  dataPorExtenso,
+  estaAtiva,
+  fimDaVagaISO,
+  jobPostingJsonLd,
+  publicadaHa,
+  resumo,
+  todasAsVagas,
+} from '../../lib/vagas';
+
+// Geramos também as vagas encerradas, para que links antigos mostrem "Vaga encerrada".
+export const getStaticPaths = (async () => {
+  const vagas = await todasAsVagas();
+  return vagas.map((vaga) => ({ params: { slug: vaga.id }, props: { vaga } }));
+}) satisfies GetStaticPaths;
+
+const { vaga } = Astro.props;
+const d = vaga.data;
+const area = areaPorNome(d.area);
+const ativa = estaAtiva(vaga);
+
+// Dados estruturados do Google (JobPosting) só em vagas abertas.
+const jsonLd = ativa ? jobPostingJsonLd(vaga) : undefined;
+---
+
+<Layout
+  title={`${d.titulo} - ${d.empresa} (home office)`}
+  description={resumo(`${d.titulo} na ${d.empresa}, vaga 100% home office. ${d.objetivo}`, 155)}
+  ogType="article"
+  noindex={!ativa}
+  jsonLd={jsonLd}
+>
+  <article
+    class="container container--estreito secao"
+    data-expira={fimDaVagaISO(vaga)}
+    data-vaga-pagina
+  >
+    <nav class="migalhas" aria-label="Você está em">
+      <a href="/">Início</a> › <a href={`/area/${area.slug}/`}>{area.nome}</a> › Vaga
+    </nav>
+
+    <header class="vaga__topo">
+      <h1>{d.titulo}</h1>
+      <p class="vaga__empresa">{d.empresa}</p>
+      <div class="vaga__meta">
+        <a class="chip" href={`/area/${area.slug}/`}>{d.area}</a>
+        <span class="chip">100% home office</span>
+        <span class="muted small" data-pub={d.data_publicacao.toISOString()}>{publicadaHa(d.data_publicacao)}</span>
+      </div>
+    </header>
+
+    <div class="aviso aviso--encerrada" role="status" data-aviso-encerrada hidden={ativa}>
+      Vaga encerrada. Esta vaga não está mais aceitando candidaturas.
+      <a href="/vagas/">Veja outras vagas abertas</a>.
+    </div>
+
+    <div class="card vaga__corpo">
+      <section aria-labelledby="objetivo">
+        <h2 id="objetivo">Objetivo da vaga</h2>
+        <p>{d.objetivo}</p>
+      </section>
+
+      <section aria-labelledby="funcao">
+        <h2 id="funcao">Função e atividades</h2>
+        <ul>{d.funcao.map((i) => <li>{i}</li>)}</ul>
+      </section>
+
+      <section aria-labelledby="requisitos">
+        <h2 id="requisitos">Requisitos</h2>
+        <ul>{d.requisitos.map((i) => <li>{i}</li>)}</ul>
+      </section>
+
+      <!-- ANÚNCIO 1: depois de "Requisitos". Sempre com conteúdo antes e depois. -->
+      <AdSlot />
+
+      <section aria-labelledby="salario">
+        <h2 id="salario">Salário e benefícios</h2>
+        {
+          d.salario ? (
+            <p class="salario">{d.salario}</p>
+          ) : (
+            <p class="muted">Salário não informado pela empresa.</p>
+          )
+        }
+        {
+          d.beneficios && d.beneficios.length > 0 && (
+            <>
+              <h3 style="margin-top:1.25rem">Benefícios</h3>
+              <ul>{d.beneficios.map((i) => <li>{i}</li>)}</ul>
+            </>
+          )
+        }
+      </section>
+
+      <!-- ANÚNCIO 2: depois de "Salário e benefícios". NÃO mova para perto do botão de candidatura. -->
+      <AdSlot />
+
+      <section class="aviso aviso--dica" aria-labelledby="seguranca">
+        <h2 id="seguranca" style="font-size:1.05rem">Antes de se candidatar</h2>
+        <p>
+          Empresas sérias não cobram para participar de um processo seletivo. Desconfie de vagas que
+          pedem pagamento, depósito ou dados bancários. Confira o site oficial da empresa e leia
+          nossas <a href="/dicas/como-identificar-golpes-em-vagas-de-emprego-remotas/">dicas contra golpes</a>.
+        </p>
+      </section>
+
+      <!-- Botão sempre no fim da página, isolado de anúncios por conteúdo e divisor. -->
+      <div class="candidatura" data-candidatura hidden={!ativa}>
+        <a
+          class="btn btn--primary btn--lg"
+          href={d.link_candidatura}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          Quero me candidatar
+        </a>
+        <p class="small" style="margin:1rem 0 0">
+          Você será levado ao site da empresa. Vaga válida até {dataPorExtenso(d.data_expiracao)}.
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>

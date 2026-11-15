@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../config';
+---
+
+<Layout
+  title="Política de Cookies"
+  description={`Entenda quais cookies o ${site.nome} e o Google AdSense usam e como você pode controlá-los no seu navegador.`}
+>
+  <div class="container container--estreito pagina__topo">
+    <h1>Política de Cookies</h1>
+    <p>Última atualização: {site.atualizacaoLegal}.</p>
+  </div>
+  <div class="container container--estreito prose" style="padding-bottom:2rem">
+    <h2>O que são cookies</h2>
+    <p>
+      Cookies são pequenos arquivos guardados no seu navegador quando você visita um site. Eles servem
+      para lembrar preferências, medir o uso e, no caso da publicidade, exibir anúncios mais relevantes.
+    </p>
+
+    <h2>Cookies do {site.nome}</h2>
+    <p>
+      O site não exige cadastro e não usa cookies próprios de login ou de rastreamento. O funcionamento
+      básico (menu, busca e leitura das vagas) não depende de cookies.
+    </p>
+
+    <h2>Cookies de publicidade (Google AdSense)</h2>
+    <p>
+      Usamos o Google AdSense para exibir anúncios. O Google e seus parceiros podem gravar cookies e
+      usar identificadores no seu navegador para:
+    </p>
+    <ul>
+      <li>exibir anúncios com base nas suas visitas anteriores a este e a outros sites;</li>
+      <li>limitar quantas vezes você vê o mesmo anúncio;</li>
+      <li>medir o desempenho dos anúncios e detectar cliques inválidos ou fraudes.</li>
+    </ul>
+    <p>
+      Esses cookies são controlados pelo Google, não por nós. Você pode:
+    </p>
+    <ul>
+      <li>
+        desativar a personalização de anúncios em
+        <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">adssettings.google.com</a>;
+      </li>
+      <li>
+        ler como o Google usa cookies em
+        <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer">policies.google.com/technologies/cookies</a>.
+      </li>
+    </ul>
+
+    <h2>Como gerenciar ou bloquear cookies</h2>
+    <p>
+      Você pode apagar ou bloquear cookies nas configurações do seu navegador (Chrome, Firefox, Safari,
+      Edge e outros). Se bloquear todos os cookies, os anúncios continuarão aparecendo, mas deixarão de ser
+      personalizados. O site continua funcionando normalmente.
+    </p>
+
+    <h2>Dúvidas</h2>
+    <p>
+      Fale com a gente pelo e-mail <a href={`mailto:${site.email}`}>{site.email}</a>. Veja também a
+      <a href="/politica-de-privacidade/">Política de Privacidade</a>.
+    </p>
+  </div>
+</Layout>

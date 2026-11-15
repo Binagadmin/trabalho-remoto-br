@@ -1,0 +1,15 @@
+# Reconstrói o site todo dia para remover automaticamente as vagas que expiraram.
+# Requer o segredo CLOUDFLARE_DEPLOY_HOOK (veja o README, seção "Atualização diária").
+name: Rebuild diário
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # 06:00 UTC = 03:00 em Brasília
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar deploy na Cloudflare Pages
+        run: curl -fsS -X POST "${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}"

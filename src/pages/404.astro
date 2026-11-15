@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SearchForm from '../components/SearchForm.astro';
+import { AREAS } from '../lib/vagas';
+---
+
+<Layout title="Página não encontrada" description="A página que você procura não existe ou foi removida." noindex>
+  <div class="container container--estreito secao" style="text-align:center">
+    <p class="chip">Erro 404</p>
+    <h1 style="margin-top:1rem">Não encontramos essa página</h1>
+    <p class="muted">
+      O endereço pode ter sido digitado errado, ou a vaga já foi encerrada e removida do site.
+    </p>
+    <div style="display:flex;justify-content:center;margin:1.5rem 0">
+      <SearchForm id="busca-404" />
+    </div>
+    <p>
+      <a class="btn btn--primary" href="/">Voltar ao início</a>
+      <a class="btn btn--ghost" href="/vagas/">Ver vagas recentes</a>
+    </p>
+    <h2 style="font-size:1.1rem;margin-top:2.5rem">Ou escolha uma área</h2>
+    <ul class="chips" style="justify-content:center">
+      {AREAS.map((a) => <li><a class="chip" href={`/area/${a.slug}/`}>{a.nome}</a></li>)}
+    </ul>
+  </div>
+</Layout>

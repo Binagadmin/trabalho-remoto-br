@@ -1,0 +1,39 @@
+---
+interface Props {
+  paginaAtual: number;
+  totalPaginas: number;
+  /** Endereço base, com barra no final. Ex.: "/vagas/" */
+  base: string;
+}
+const { paginaAtual, totalPaginas, base } = Astro.props;
+const href = (n: number) => (n === 1 ? base : `${base}${n}/`);
+const numeros = Array.from({ length: totalPaginas }, (_, i) => i + 1);
+---
+
+{
+  totalPaginas > 1 && (
+    <nav class="paginacao" aria-label="Paginação">
+      {paginaAtual > 1 ? (
+        <a class="btn btn--ghost" href={href(paginaAtual - 1)} rel="prev">← Anteriores</a>
+      ) : (
+        <span class="btn btn--ghost btn--off" aria-disabled="true">← Anteriores</span>
+      )}
+      <ul class="paginacao__lista">
+        {numeros.map((n) => (
+          <li>
+            {n === paginaAtual ? (
+              <span class="paginacao__num paginacao__num--atual" aria-current="page">{n}</span>
+            ) : (
+              <a class="paginacao__num" href={href(n)}>{n}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+      {paginaAtual < totalPaginas ? (
+        <a class="btn btn--ghost" href={href(paginaAtual + 1)} rel="next">Próximas →</a>
+      ) : (
+        <span class="btn btn--ghost btn--off" aria-disabled="true">Próximas →</span>
+      )}
+    </nav>
+  )
+}

@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../config';
+---
+
+<Layout
+  title="Contato"
+  description={`Entre em contato com o ${site.nome} para enviar sugestões, divulgar vagas ou avisar sobre algum problema no site.`}
+>
+  <div class="container container--estreito pagina__topo">
+    <h1>Contato</h1>
+    <p>
+      Dúvidas, sugestões, correções ou quer divulgar uma vaga? Preencha o formulário ou escreva para
+      <a href={`mailto:${site.email}`}>{site.email}</a>. Respondemos em até 3 dias úteis.
+    </p>
+  </div>
+
+  <div class="container container--estreito" style="padding-bottom:2rem">
+    <form class="card" action={`https://formspree.io/f/${site.formspreeId}`} method="POST">
+      <div class="campo">
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome" type="text" required autocomplete="name" />
+      </div>
+      <div class="campo">
+        <label for="email">Seu e-mail</label>
+        <input id="email" name="email" type="email" required autocomplete="email" />
+      </div>
+      <div class="campo">
+        <label for="assunto">Assunto</label>
+        <select id="assunto" name="assunto">
+          <option>Dúvida ou sugestão</option>
+          <option>Quero divulgar uma vaga</option>
+          <option>Corrigir ou remover uma vaga</option>
+          <option>Privacidade e dados pessoais (LGPD)</option>
+          <option>Outro assunto</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="mensagem">Mensagem</label>
+        <textarea id="mensagem" name="mensagem" required></textarea>
+      </div>
+      <!-- Campo-isca contra spam: pessoas não veem, robôs preenchem. -->
+      <div class="hp" aria-hidden="true">
+        <label>Não preencha <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+      </div>
+      <button class="btn btn--primary" type="submit">Enviar mensagem</button>
+      <p class="muted small" style="margin:1rem 0 0">
+        Ao enviar, você concorda com o uso dos seus dados para responder à mensagem, conforme a
+        <a href="/politica-de-privacidade/">Política de Privacidade</a>. O formulário é processado pelo Formspree.
+      </p>
+    </form>
+  </div>
+</Layout>
