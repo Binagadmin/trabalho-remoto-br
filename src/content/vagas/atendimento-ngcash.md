@@ -14,7 +14,7 @@
 # ============================================================================
 
 titulo: Analista de Experiência do Cliente (Atendimento) 100% Home Office
-empresa: NG.cassh
+empresa: NG.cash
 area: Atendimento ao Cliente
 objetivo: Você será responsável por atender nossos clientes nos canais de suporte e terá a oportunidade de participar ativamente da evolução da área de CX e da própria NG.CASH
 funcao:
