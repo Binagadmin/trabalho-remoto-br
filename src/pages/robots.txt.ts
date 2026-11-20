@@ -6,6 +6,7 @@ export const GET: APIRoute = () => {
     'User-agent: *',
     'Allow: /',
     'Disallow: /buscar/',
+    'Disallow: /admin/',
     '',
     '# O robô do AdSense precisa poder ler todas as páginas.',
     'User-agent: Mediapartners-Google',

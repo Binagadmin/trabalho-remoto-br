@@ -1,0 +1,41 @@
+backend:
+  name: github
+  repo: Binagadmin/trabalho-remoto-br
+  branch: main
+locale: pt
+media_folder: public/uploads
+public_folder: /uploads
+collections:
+  - name: vagas
+    label: Vagas
+    label_singular: Vaga
+    folder: src/content/vagas
+    extension: md
+    format: frontmatter
+    create: true
+    identifier_field: titulo
+    slug: "{{fields.titulo}}-{{fields.empresa}}"
+    summary: "{{titulo}} - {{empresa}}"
+    fields:
+      - { name: titulo, label: Título do cargo, widget: string }
+      - { name: empresa, label: Empresa, widget: string }
+      - name: area
+        label: Área
+        widget: select
+        options: [Administrativo, Atendimento ao Cliente, Tecnologia, Marketing, Vendas, RH, Financeiro, Design]
+      - { name: objetivo, label: Objetivo da vaga (1 a 3 frases), widget: text }
+      - { name: funcao, label: Atividades do dia a dia, widget: list, field: { name: item, label: Atividade, widget: string } }
+      - { name: requisitos, label: Requisitos, widget: list, field: { name: item, label: Requisito, widget: string } }
+      - { name: salario, label: Salário (texto que aparece no site), widget: string, required: false }
+      - { name: salario_min, label: Salário mínimo (número), widget: number, value_type: int, required: false }
+      - { name: salario_max, label: Salário máximo (número), widget: number, value_type: int, required: false }
+      - name: salario_periodo
+        label: Período do salário
+        widget: select
+        options: [{ label: Por mês, value: MONTH }, { label: Por hora, value: HOUR }, { label: Por dia, value: DAY }, { label: Por semana, value: WEEK }, { label: Por ano, value: YEAR }]
+        default: MONTH
+        required: false
+      - { name: beneficios, label: Benefícios, widget: list, required: false, field: { name: item, label: Benefício, widget: string } }
+      - { name: link_candidatura, label: Link para se candidatar, widget: string }
+      - { name: data_publicacao, label: Data de publicação, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - { name: data_expiracao, label: Aceita candidaturas até, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
