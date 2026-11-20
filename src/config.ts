@@ -6,3 +6,4 @@ export const site = {
           email: 'contato@trabalhoremotobr.com.br',
             formspreeId: 'SEU_ID_FORMSPREE',
             };
+export const VAGAS_POR_PAGINA = 10;
