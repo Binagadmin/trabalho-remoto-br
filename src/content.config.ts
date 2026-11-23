@@ -1,6 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { AREA_NOMES } from './lib/areas';
+const vazio = <T extends z.ZodTypeAny>(s: T) => z.preprocess((v) => (v === null || v === '' || (Array.isArray(v) && v.length === 0) ? undefined : v), s.optional());
 
 const vagas = defineCollection({
   // Arquivos que começam com "_" (como _MODELO.md) são ignorados.
@@ -12,12 +13,12 @@ const vagas = defineCollection({
     objetivo: z.string(),
     funcao: z.array(z.string()).min(1),
     requisitos: z.array(z.string()).min(1),
-    salario: z.string().optional(),
+    salario: vazio(z.string()),
     // Opcionais: usados só nos dados estruturados do Google (baseSalary).
-    salario_min: z.number().positive().optional(),
-    salario_max: z.number().positive().optional(),
+    salario_min: vazio(z.number().positive()),
+    salario_max: vazio(z.number().positive()),
     salario_periodo: z.enum(['HOUR', 'DAY', 'WEEK', 'MONTH', 'YEAR']).default('MONTH'),
-    beneficios: z.array(z.string()).optional(),
+    beneficios: vazio(z.array(z.string())),
     link_candidatura: z.string().url(),
     data_publicacao: z.coerce.date(),
     data_expiracao: z.coerce.date(),
