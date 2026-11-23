@@ -39,3 +39,17 @@ collections:
       - { name: link_candidatura, label: Link para se candidatar, widget: string }
       - { name: data_publicacao, label: Data de publicação, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
       - { name: data_expiracao, label: Aceita candidaturas até, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+  - name: dicas
+    label: Dicas
+    label_singular: Dica
+    folder: src/content/dicas
+    extension: md
+    format: frontmatter
+    create: true
+    identifier_field: titulo
+    slug: "{{fields.titulo}}"
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: descricao, label: Descrição curta (aparece no Google), widget: text }
+      - { name: data_publicacao, label: Data, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - { name: body, label: Texto, widget: markdown }
