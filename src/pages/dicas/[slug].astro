@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import AdSlot from '../../components/AdSlot.astro';
 import { site } from '../../config';
 import { dataPorExtenso, diaISO, todasAsDicas } from '../../lib/vagas';
 
@@ -38,9 +39,32 @@ const jsonLd = {
       Publicado em {dataPorExtenso(d.data_publicacao)}
       {d.data_atualizacao && <> · Atualizado em {dataPorExtenso(d.data_atualizacao)}</>}
     </p>
-    <div class="prose">
+    <AdSlot />
+    <div class="prose" id="corpo-artigo">
       <Content />
     </div>
+    <template id="modelo-anuncio"><AdSlot /></template>
+    <script is:inline>
+      (function () {
+        var corpo = document.getElementById('corpo-artigo');
+        var modelo = document.getElementById('modelo-anuncio');
+        if (!corpo || !modelo) return;
+        var hs = corpo.querySelectorAll('h2');
+        var n = hs.length;
+        var pos = [2, n >= 4 ? 4 : 3];
+        pos.forEach(function (p, i) {
+          if (p > n || (i === 1 && p === pos[0])) return;
+          var el = modelo.content.firstElementChild;
+          if (!el) return;
+          var c = el.cloneNode(true);
+          c.querySelectorAll('script').forEach(function (sc) { sc.remove(); });
+          hs[p - 1].parentNode.insertBefore(c, hs[p - 1]);
+          if (c.querySelector('ins.adsbygoogle')) {
+            try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+          }
+        });
+      })();
+    </script>
     <div class="card vazio" style="margin-top:3rem">
       <h2 style="font-size:1.2rem">Pronto para procurar sua vaga?</h2>
       <p class="muted">Veja as oportunidades home office abertas agora.</p>
