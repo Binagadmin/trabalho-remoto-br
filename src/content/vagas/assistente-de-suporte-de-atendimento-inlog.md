@@ -31,5 +31,5 @@ beneficios:
   - Home office
 link_candidatura: https://rs.tagguirh.com.br/visualizar-vaga/grupoinlog/2648
 data_publicacao: 2026-11-23
-data_expiracao: 2026-11-23
+data_expiracao: 2061-11-30
 ---
