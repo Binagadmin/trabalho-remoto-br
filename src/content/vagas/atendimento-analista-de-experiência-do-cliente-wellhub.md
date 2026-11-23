@@ -36,5 +36,5 @@ beneficios:
   - 'LICENÇA PARENTAL REMUNERADA: Receber um novo membro na família é um dos momentos mais especiais da vida. Queremos que cada pessoa colaboradora possa estar presente de verdade e aproveite esse tempo em família. Por isso, oferecemos licença parental 100% remunerada a todos os novos pais. Quem dá à luz também tem direito à licença estendida (Empresa Cidadã) e a um período de adaptação (ramp-back), em que pode trabalhar meio-período até se ajustar à nova rotina.'
 link_candidatura: https://job-boards.greenhouse.io/gympass/jobs/8901090002?gh_src=709aee8b2us
 data_publicacao: 2026-11-23
-data_expiracao: 2027-05-31
+data_expiracao: 2061-05-31
 ---
