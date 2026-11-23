@@ -25,5 +25,5 @@ beneficios:
   - Acompanhamento psicológico gratuito
 link_candidatura: https://elevesolucoes.vagas.solides.com.br/vaga/955621?origem=linkedin
 data_publicacao: 2026-11-23
-data_expiracao: 2026-11-23
+data_expiracao: 2061-11-30
 ---
