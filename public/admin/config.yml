@@ -37,7 +37,7 @@ collections:
         required: false
       - { name: beneficios, label: "Benefícios (um por linha)", widget: text, required: false }
       - { name: link_candidatura, label: Link para se candidatar, widget: string }
-      - { name: data_publicacao, label: Data de publicação, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - { name: data_publicacao, label: "Data de publicação (pode ser futura para agendar)", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
       - { name: data_expiracao, label: "Aceita candidaturas até (opcional: se vazio, fica 30 dias no ar)", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true, required: false }
   - name: dicas
     label: Dicas

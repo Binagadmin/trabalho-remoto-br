@@ -80,7 +80,9 @@ const maisRecentesPrimeiro = (a: Vaga, b: Vaga) =>
 
 /** Todas as vagas, inclusive encerradas (usado para gerar as páginas individuais). */
 export async function todasAsVagas(): Promise<Vaga[]> {
-  return (await getCollection('vagas')).sort(maisRecentesPrimeiro);
+  return (await getCollection('vagas'))
+    .filter((v) => v.data.data_publicacao.getTime() <= Date.now())
+    .sort(maisRecentesPrimeiro);
 }
 
 /** Somente vagas abertas, da mais recente para a mais antiga. */
